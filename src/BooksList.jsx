@@ -1,6 +1,10 @@
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './BooksList.css';
+import axios from 'axios';
+
+const client = axios.create({
+    baseURL: process.env.REACT_APP_API_SERVER,
+});
 
 function BooksList() {
     const [books, setBooks] = useState([]);
@@ -9,13 +13,7 @@ function BooksList() {
     useEffect(() => {
         (async () => {
             try {
-                const response = await fetch(
-                    `${process.env.REACT_APP_API_SERVER}/books`
-                );
-                if (!response.ok) {
-                    throw new Error('Request failed');
-                }
-                const data = await response.json();
+                const { data } = await client.get(`/books`);
                 setBooks(data);
             } catch (error) {
                 setError(error);

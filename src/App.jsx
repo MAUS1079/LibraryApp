@@ -1,5 +1,5 @@
 import './App.css';
-import BooksList from './BooksList';
+import BooksList from './BooksList.container';
 
 function App() {
   return (
