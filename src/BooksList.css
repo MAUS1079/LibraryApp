@@ -13,3 +13,8 @@ tr:nth-child(2n) {
 td {
   padding: 5px 10px;
 }
+
+button {
+  border: none;
+  background: none;
+}
