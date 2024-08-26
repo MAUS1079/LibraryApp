@@ -1,26 +1,7 @@
-import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import './BooksList.css';
-import axios from 'axios';
 
-const client = axios.create({
-    baseURL: process.env.REACT_APP_API_SERVER,
-});
-
-function BooksList() {
-    const [books, setBooks] = useState([]);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        (async () => {
-            try {
-                const { data } = await client.get(`/books`);
-                setBooks(data);
-            } catch (error) {
-                setError(error);
-            }
-        })();
-    }, []);
-
+function BooksList({ error, books }) {
     if (error !== null) {
         return <div>An error has occurred: {error.message}</div>;
     } else if (books.length === 0) {
@@ -48,5 +29,16 @@ function BooksList() {
         );
     }
 }
+
+BooksList.protoTypes = {
+    books: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            title: PropTypes.string.isRequired,
+            isbn: PropTypes.string.isRequired,
+        })
+    ),
+    error: PropTypes.object,
+};
 
 export default BooksList;
